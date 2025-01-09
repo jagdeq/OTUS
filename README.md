@@ -1,2 +1,2 @@
-# OTUS C++ Professional
-Homeworks
+# Task1
+Environment setup
