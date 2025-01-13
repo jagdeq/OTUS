@@ -14,11 +14,10 @@ jobs:
         with:
           submodules: true
       - run: sudo apt-get update && sudo apt-get install libgtest-dev -y
-      - run: sudo mkdir tmp_files && cd tmp_files 
-      - run: cmake ../ -DPATCH_VERSION=${{ github.run_number }} -DWITH_GOOGLE_TEST=ON
-      - run: cmake --build .
-      - run: cmake --build . --target test
-      - run: cmake --build . --target package
+      - run: cmake -B tmp_files -DPATCH_VERSION=${{ github.run_number }} -DWITH_GOOGLE_TEST=ON
+      - run: cmake --build tmp_files
+      - run: cmake --build tmp_files --target test
+      - run: cmake --build tmp_files --target package
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
