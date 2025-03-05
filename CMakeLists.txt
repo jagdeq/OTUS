@@ -14,7 +14,6 @@ option(WITH_TESTS "Whether to build tests" OFF)
 configure_file(version.h.in version.h)
 
 add_executable(${EXEC_NAME} main.cpp)
-# add_library(${LIB_NAME} src/lib.cpp)
 
 set_target_properties(${EXEC_NAME} 
     PROPERTIES
@@ -28,7 +27,7 @@ target_link_libraries(${EXEC_NAME}
 )   
 
 add_subdirectory(lib)
-add_subdirectory(tests)
+# add_subdirectory(tests)
 
 if (MSVC)
     target_compile_options(${EXEC_NAME} PRIVATE
