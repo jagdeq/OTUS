@@ -1,31 +1,43 @@
+// #include <functional>
 #include <iostream>
+#include <list>
+#include <map>
+#include <vector>
+// #include <memory>
 
-#include "ip_filter.hpp"
+#include "logging_allocator.hpp"
+#include "reserve_allocator.hpp"
+#include "some_container.hpp"
+
+constexpr size_t g_nElements = 10;
+
+int factorial(int n) { return (n == 0) ? 1 : n * factorial(n - 1); }
 
 int main()
 {
-    std::vector<std::string> ipPool;
+    /// Allocator
+    std::map<int, int> mapStandart;
+    for (int i = 0; i != g_nElements; ++i)
+        mapStandart.insert({i, factorial(i)});
 
-    // parse
-    for (std::string line; std::getline(std::cin, line);)
-        ipPool.push_back(line.substr(0, line.find_first_of('\t')));
+    std::map<int, int, std::less<int>, cstm::ReserveAllocator<std::pair<const int, int>, g_nElements>> mapNewAllocator;
+    for (int i = 0; i != g_nElements; ++i)
+        mapNewAllocator.insert({i, factorial(i)});
 
-    // check
-    std::vector<std::string> sortedPool = ip::reverseSort(ipPool);
-    for (auto addr : sortedPool)
-        std::cout << addr << std::endl;
+    for (auto p : mapNewAllocator)
+        std::cout << p.first << " " << p.second << std::endl;
 
-    std::vector<std::string> pool_46 = ip::filterByFirstByte(sortedPool, 1);
-    for (auto addr : pool_46)
-        std::cout << addr << std::endl;
+    /// Container
+    cstm::SomeContainer<int> container;
+    for (int i = 0; i != g_nElements; ++i)
+        container.push_back(i);
 
-    std::vector<std::string> pool_46_70 = ip::filterByFirstTwoBytes(sortedPool, 46, 70);
-    for (auto addr : pool_46_70)
-        std::cout << addr << std::endl;
+    cstm::SomeContainer<int, cstm::ReserveAllocator<int>> contWithCAlloc;
+    for (int i = 0; i != g_nElements; ++i)
+        contWithCAlloc.push_back(i);
 
-    std::vector<std::string> pool_any_46 = ip::filterByAnyByte(sortedPool, 46);
-    for (auto addr : pool_any_46)
-        std::cout << addr << std::endl;
+    for (size_t i = 0; i != g_nElements; ++i)
+        std::cout << contWithCAlloc[i] << std::endl;
 
     return 0;
 }

@@ -1,4 +1,11 @@
-add_library(${LIB_NAME} ip_filter.hpp ip_filter.cpp)
+set(HEADRES
+    unused.hpp
+    reserve_allocator.hpp
+    logging_allocator.hpp
+    some_container.hpp
+)
+
+add_library(${LIB_NAME} INTERFACE ${HEADERS})
 
 set_target_properties(${LIB_NAME} 
     PROPERTIES
@@ -7,16 +14,16 @@ set_target_properties(${LIB_NAME}
 )
 
 target_include_directories(${LIB_NAME}
-    PUBLIC
+    INTERFACE
         "${CMAKE_CURRENT_SOURCE_DIR}"
 )
 
 if (MSVC)
-    target_compile_options(${LIB_NAME} PRIVATE
+    target_compile_options(${LIB_NAME} INTERFACE
         /W4
     )
 else()
-    target_compile_options(${LIB_NAME} PRIVATE
+    target_compile_options(${LIB_NAME} INTERFACE
         -Wall -Wextra -pedantic -Werror
     )
 endif()

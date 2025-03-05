@@ -3,13 +3,13 @@ cmake_minimum_required(VERSION 3.28.1)
 set(PATCH_VERSION "1" CACHE INTERNAL "Patch version")
 set(PROJECT_VESRION 0.0.${PATCH_VERSION})
 
-project(ip_filter VERSION ${PROJECT_VESRION})
+project(allocator VERSION ${PROJECT_VESRION} )
 
-set(LIB_NAME ip_filter_lib)
-set(EXEC_NAME ip_filter)
-set(TEST_NAME test_filter)
+set(LIB_NAME allocator)
+set(EXEC_NAME allocator_cli)
+set(TEST_NAME test_allocator)
 
-option(WITH_TESTS "Whether to build tests" ON)
+option(WITH_TESTS "Whether to build tests" OFF)
 
 configure_file(version.h.in version.h)
 
@@ -51,5 +51,5 @@ include(CPack)
 
 if(WITH_TESTS)
     enable_testing()
-    add_test(test_filter tests/${TEST_NAME})
+    add_test(${TEST_NAME} tests/${TEST_NAME})
 endif()
