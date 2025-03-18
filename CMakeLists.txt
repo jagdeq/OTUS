@@ -5,9 +5,9 @@ set(PROJECT_VESRION 0.0.${PATCH_VERSION})
 
 project(print_ip VERSION ${PROJECT_VESRION} )
 
-set(LIB_NAME ${PROJECT_NAME})
-set(EXEC_NAME ${PROJECT_NAME}_cli)
-set(TEST_NAME ${PROJECT_NAME}_allocator)
+set(LIB_NAME ${PROJECT_NAME}_lib)
+set(EXEC_NAME ${PROJECT_NAME})
+set(TEST_NAME ${PROJECT_NAME}_test)
 
 option(WITH_TESTS "Whether to build tests" OFF)
 
@@ -17,7 +17,7 @@ add_executable(${EXEC_NAME} main.cpp)
 
 set_target_properties(${EXEC_NAME} 
     PROPERTIES
-        CXX_STANDARD 14
+        CXX_STANDARD 17
         CXX_STANDARD_REQUIRED ON
 )
 
