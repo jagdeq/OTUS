@@ -1,0 +1,86 @@
+# -*- mode: yaml -*-
+---
+Language: Cpp
+
+AccessModifierOffset: -4                                
+AlignAfterOpenBracket: Align                            
+AlignConsecutiveAssignments:
+  Enabled: true
+  AcrossEmptyLines: false
+  AcrossComments: true                    
+AlignConsecutiveDeclarations: false    
+AlignConsecutiveMacros:
+  Enabled: true
+  AcrossEmptyLines: true
+  AcrossComments: true              
+AlignEscapedNewlines: DontAlign                          
+AlignOperands: Align    
+AlignTrailingComments: 
+  Kind: Always
+AllowAllParametersOfDeclarationOnNextLine: true         
+AllowShortCaseLabelsOnASingleLine: false                 
+AllowShortFunctionsOnASingleLine: All                   
+AllowShortIfStatementsOnASingleLine: false               
+AllowShortLoopsOnASingleLine: false                     
+AllowShortBlocksOnASingleLine: Empty                    
+AlwaysBreakTemplateDeclarations: Yes
+BinPackArguments: true
+BinPackParameters: true
+BraceWrapping:                                          
+  AfterCaseLabel: false
+  AfterClass: true
+  AfterControlStatement: false
+  AfterEnum: true
+  AfterFunction: true
+  AfterNamespace: false
+  AfterObjCDeclaration: true
+  AfterStruct: true
+  AfterUnion: true
+  AfterExternBlock: false
+  BeforeCatch: false
+  BeforeElse: false
+  IndentBraces: false
+  SplitEmptyFunction: false
+  SplitEmptyRecord: false
+  SplitEmptyNamespace: false
+  BeforeLambdaBody: false
+  BeforeWhile: false
+BreakBeforeBinaryOperators: None                       
+BreakBeforeBraces: Custom                                              
+ColumnLimit: 120                            
+Cpp11BracedListStyle: true 
+IncludeCategories: 
+  - Regex: '^<[a-z_]+>$'
+    Priority: 1
+  - Regex: '^<[a-z0-9_/]+\.h>$'
+    Priority: 2
+  - Regex: '^"[a-z0-9_/]+\.hpp"$'
+    Priority: 3
+  - Regex: '^"[a-z0-9_/]+\.h"$'
+    Priority: 4
+IndentCaseLabels: true
+IndentCaseBlocks: true
+IncludeBlocks: Regroup 
+IndentWidth: 4
+IndentWrappedFunctionNames: false
+InsertBraces: false
+FixNamespaceComments: true
+MaxEmptyLinesToKeep: 1
+NamespaceIndentation: None
+PackConstructorInitializers: Never         
+PointerAlignment: Left
+ReflowComments: true
+SortIncludes: true
+SpaceAfterCStyleCast: false             
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeParens: ControlStatements
+SpaceInEmptyParentheses: false
+SpacesBeforeTrailingComments: 1
+SpacesInAngles: false
+SpacesInContainerLiterals: true
+SpacesInCStyleCastParentheses: false
+SpacesInParentheses: false
+SpacesInSquareBrackets: false
+# TabSize: 4
+# UseTabs: Never
+
