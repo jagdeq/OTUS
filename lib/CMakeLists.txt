@@ -1,10 +1,9 @@
 set(HEADERS
-    matrix.hpp
-    proxy.hpp
+
 )
 
 
-add_library(${LIB_NAME} INTERFACE ${HEADERS})
+add_library(${LIB_NAME} ${HEADERS})
 
 set_target_properties(${LIB_NAME} 
     PROPERTIES
@@ -13,16 +12,16 @@ set_target_properties(${LIB_NAME}
 )
 
 target_include_directories(${LIB_NAME}
-    INTERFACE
+    PUBLIC
         "${CMAKE_CURRENT_SOURCE_DIR}"
 )
 
 if (MSVC)
-    target_compile_options(${LIB_NAME} INTERFACE
+    target_compile_options(${LIB_NAME} PRIVATE
         /W4
     )
 else()
-    target_compile_options(${LIB_NAME} INTERFACE
+    target_compile_options(${LIB_NAME} PRIVATE
         -Wall -Wextra -pedantic -Werror
     )
 endif()

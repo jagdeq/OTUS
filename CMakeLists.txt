@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.28.1)
 set(PATCH_VERSION "1" CACHE INTERNAL "Patch version")
 set(PROJECT_VESRION 0.0.${PATCH_VERSION})
 
-project(matrix VERSION ${PROJECT_VESRION} )
+project(bulk VERSION ${PROJECT_VESRION} )
 
 set(LIB_NAME ${PROJECT_NAME}_lib)
 set(EXEC_NAME ${PROJECT_NAME})
