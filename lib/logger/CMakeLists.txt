@@ -1,9 +1,18 @@
-set(HEADERS
+set(LIB_NAME logger)
 
+set(HEADERS
+    aliases.hpp    
+    base_logger.hpp
+    console_logger.hpp
+    file_logger.hpp
 )
 
+set(SOURCES
+    console_logger.cpp
+    file_logger.cpp
+)
 
-add_library(${LIB_NAME} ${HEADERS})
+add_library(${LIB_NAME} ${HEADERS} ${SOURCES})
 
 set_target_properties(${LIB_NAME} 
     PROPERTIES

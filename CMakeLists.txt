@@ -5,7 +5,7 @@ set(PROJECT_VESRION 0.0.${PATCH_VERSION})
 
 project(bulk VERSION ${PROJECT_VESRION} )
 
-set(LIB_NAME ${PROJECT_NAME}_lib)
+# set(LIB_NAME ${PROJECT_NAME}_lib)
 set(EXEC_NAME ${PROJECT_NAME})
 set(TEST_NAME ${PROJECT_NAME}_test)
 
@@ -23,10 +23,12 @@ set_target_properties(${EXEC_NAME}
 
 target_link_libraries(${EXEC_NAME} 
     PRIVATE
-        ${LIB_NAME}
+        analyzer
+        logger
 )   
 
-add_subdirectory(lib)
+add_subdirectory(lib/analyzer)
+add_subdirectory(lib/logger)
 
 if(MSVC)
     target_compile_options(${EXEC_NAME} PRIVATE
