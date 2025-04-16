@@ -23,7 +23,7 @@ int main()
 
     // Только для 2D-матрицы
     for (auto [x, y, v] : matrix)
-        printf("%d (%d, %d)\n", v, x, y);
+        printf("%d (%lu, %lu)\n", v, x, y);
 
     return 0;
 }
