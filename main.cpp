@@ -22,11 +22,8 @@ int main()
     std::cout << matrix.size() << std::endl;
 
     // Только для 2D-матрицы
-    int x, y, v;
-    for (auto el : matrix) {
-        std::tie(x, y, v) = el;
+    for (auto [x, y, v] : matrix)
         printf("%d (%d, %d)\n", v, x, y);
-    }
 
     return 0;
 }
