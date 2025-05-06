@@ -9,7 +9,8 @@ namespace logger {
 class ConsoleLogger : public IBaseLogger
 {
 public:
-    void update(const std::vector<command_pair>& block) noexcept override;
+    ConsoleLogger();
+    ~ConsoleLogger();
 };
 } // namespace logger
 

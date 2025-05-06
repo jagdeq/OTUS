@@ -1,31 +1,40 @@
-#include <chrono>
 #include <iostream>
 #include <string>
-#include <utility>
+#include <thread>
+#include <vector>
 
-#include "analyzer.hpp"
-#include "console_logger.hpp"
-#include "file_logger.hpp"
+#include "async.h"
 
-/// @brief Логика приёма команд реализована в main-е, тк посчитал нецелесообразным создавать целый класс
-/// для одного метода
-int main(int argc, char** argv)
+constexpr size_t g_cmdBlockSize = 3;
+
+void doFirstThread()
 {
-    if (argc != 2) {
-        std::cout << "Incorrect input. Set command line block.\n";
-        std::cout << "Example: ./bulk 3\n";
-        return 0;
-    }
+    std::vector<std::string> buf = {"cmd1_1", "cmd2_1", "{",      "cmd3_1", "cmd4_1", "}", "{", "cmd5_1",  "cmd6_1",
+                                    "{",      "cmd7_1", "cmd8_1", "}",      "cmd9_1", "}", "{", "cmd10_1", "cmd11_1"};
 
-    logger::FileLogger flogger;
-    logger::ConsoleLogger clogger;
-    Analyzer analyzer(std::stol(argv[1]));
+    size_t context = async::connect(3);
+    for (std::string& cmd : buf)
+        async::receive(cmd.data(), cmd.size(), context);
 
-    analyzer.attach(&flogger);
-    analyzer.attach(&clogger);
+    async::disconnect(context);
+}
 
-    for (std::string line; std::getline(std::cin, line);)
-        analyzer.parse(std::make_pair(line, std::chrono::system_clock::now().time_since_epoch().count()));
+void doSecondThread()
+{
+    std::vector<std::string> buf{"cmd1_2", "cmd2_2", "cmd3_2", "cmd4_2", "cmd5_2"};
+    size_t context = async::connect(3);
+    for (std::string& cmd : buf)
+        async::receive(cmd.data(), cmd.size(), context);
 
+    async::disconnect(context);
+}
+
+int main()
+{
+    std::thread th(doSecondThread);
+    doFirstThread();
+    th.join();
+
+    while (true) {}
     return 0;
 }

@@ -2,6 +2,7 @@
 #define FILE_LOGGER_HPP
 
 #include <fstream>
+#include <thread>
 
 #include "base_logger.hpp"
 
@@ -9,7 +10,11 @@ namespace logger {
 class FileLogger : public IBaseLogger
 {
 public:
-    void update(const std::vector<command_pair>& block) noexcept override;
+    FileLogger();
+    ~FileLogger();
+
+private:
+    std::vector<std::thread> m_workers;
 };
 } // namespace logger
 

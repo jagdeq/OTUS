@@ -3,7 +3,7 @@ name: 'C++ CI'
 on:
   push:
     branches:
-      - task7_command_parser
+      - task9_async
       - feature/github_actions
 
 jobs:
@@ -16,6 +16,7 @@ jobs:
       - run: sudo apt-get update && sudo apt-get install doxygen -y
       - run: cmake -B build -DPATCH_VERSION=${{ github.run_number }}
       - run: cmake --build build
+      - run: cmake --build build --target test
       - run: cmake --build build --target package
       
       - name: Create Release
@@ -36,8 +37,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./build/bulk-0.0.${{ github.run_number }}-Linux.deb
-          asset_name: bulk-0.0.${{ github.run_number }}-Linux.deb
+          asset_path: ./build/async-0.0.${{ github.run_number }}-Linux.deb
+          asset_name: async-0.0.${{ github.run_number }}-Linux.deb
           asset_content_type: application/vnd.debian.binary-package
 
       - name: Doxygen Action
