@@ -21,8 +21,6 @@ void async::receive(const char* buffer, size_t buf_size, size_t context)
     else if (buf_size == 0)
         throw std::invalid_argument("Invalid buffer size");
 
-    std::cout << "HERE!\n";
-
     std::vector<std::string> buf{std::string(buffer, buf_size)};
     async::IAsync::getInstance().receive(buf, context);
 }
