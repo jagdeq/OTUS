@@ -13,7 +13,7 @@ option(WITH_GTESTS "Whether to build tests" OFF)
 
 configure_file(version.h.in version.h)
 
-add_executable(${EXEC_NAME} server.hpp main.cpp)
+add_executable(${EXEC_NAME} server.hpp server.cpp main.cpp)
 
 set_target_properties(${EXEC_NAME} 
     PROPERTIES
