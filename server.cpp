@@ -57,15 +57,13 @@ void Session::parseBuf(size_t length)
     std::string cmd;
     while (std::getline(bufstream, cmd)) {
         if (cmd == "{") {
-            if (m_bracketsLevel == 0)
+            if (m_bracketsLevel++ == 0)
                 m_uniqueContext = async::connect(m_bulkSize);
 
-            m_bracketsLevel++;
-        } else if (cmd == "}" && m_bracketsLevel) {
-            m_bracketsLevel--;
-
-            if (m_bracketsLevel == 0)
-                async::disconnect(m_uniqueContext);
+        } else if (cmd == "}" && --m_bracketsLevel == 0) {
+            async::receive(cmd.data(), cmd.size(), m_uniqueContext);
+            async::disconnect(m_uniqueContext);
+            continue;
         }
 
         size_t context = (m_bracketsLevel) ? m_uniqueContext : m_commonContext;
