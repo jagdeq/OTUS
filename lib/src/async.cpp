@@ -18,8 +18,6 @@ void async::receive(const char* buffer, size_t buf_size, size_t context)
 {
     if (buffer == nullptr)
         throw std::invalid_argument("Invalid buffer pointer");
-    else if (buf_size == 0)
-        throw std::invalid_argument("Invalid buffer size");
 
     std::vector<std::string> buf{std::string(buffer, buf_size)};
     async::IAsync::getInstance().receive(buf, context);
