@@ -1,40 +1,35 @@
-set(LIB_NAME async)
+set(LIB_NAME file_analyzer)
 
 set(HEADERS
-    inc/async/async.h
-    inc/aliases.hpp    
-    inc/analyzer.hpp    
-    inc/async_interface.hpp    
-    inc/base_logger.hpp    
-    inc/console_logger.hpp    
-    inc/file_logger.hpp    
+    inc/consts.hpp
+    inc/options.hpp
+    inc/analyzer.hpp
 ) 
 
 set(SOURCES
-    src/analyzer.cpp    
-    src/async_interface.cpp    
-    src/async.cpp
-    src/console_logger.cpp    
-    src/file_logger.cpp    
+    src/analyzer.cpp
 ) 
 
-add_definitions(-DASYNC_EXPORT)
-
-add_library(${LIB_NAME} SHARED ${HEADERS} ${SOURCES})
+add_library(${LIB_NAME} ${HEADERS} ${SOURCES})
 
 set_target_properties(${LIB_NAME} 
     PROPERTIES
-        CXX_STANDARD 14
+        CXX_STANDARD 17
         CXX_STANDARD_REQUIRED ON
-    PUBLIC_HEADER
-        lib/inc/async/async.h
+    # PUBLIC_HEADER
+    #     lib/inc/async/async.h
+)
+
+find_package(Boost COMPONENTS filesystem REQUIRED)
+target_link_libraries(${LIB_NAME}
+    PUBLIC
+        ${Boost_FILESYSTEM_LIBRARY}
 )
 
 target_include_directories(${LIB_NAME}
     PUBLIC
-        inc/async
-    PRIVATE
         inc
+        ${Boost_FILESYSTEM_INCLUDE}
 )
 
 if (MSVC)
@@ -47,4 +42,3 @@ else()
     )
 endif()
 
-# install

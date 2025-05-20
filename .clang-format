@@ -52,12 +52,14 @@ Cpp11BracedListStyle: true
 IncludeCategories: 
   - Regex: '^<[a-z_]+>$'
     Priority: 1
-  - Regex: '^<[a-z0-9_/]+\.h>$'
+  - Regex: '^<[a-z_/.]+>$'
     Priority: 2
-  - Regex: '^"[a-z0-9_/]+\.hpp"$'
+  - Regex: '^<[a-z0-9_/]+\.h>$'
     Priority: 3
-  - Regex: '^"[a-z0-9_/]+\.h"$'
+  - Regex: '^"[a-z0-9_/]+\.hpp"$'
     Priority: 4
+  - Regex: '^"[a-z0-9_/]+\.h"$'
+    Priority: 5
 IndentCaseLabels: true
 IndentCaseBlocks: true
 IncludeBlocks: Regroup 

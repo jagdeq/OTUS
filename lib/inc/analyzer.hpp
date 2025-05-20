@@ -1,30 +1,29 @@
-#ifndef ANALYZER_HPP
-#define ANALYZER_HPP
-
 #include <algorithm>
-#include <string>
-#include <vector>
+#include <iostream>
+#include <regex>
+#include <set>
+#include <unordered_set>
 
-#include "aliases.hpp"
-#include "base_logger.hpp"
+#include <boost/filesystem.hpp>
+// #include <boost/regex.hpp>
 
-namespace async {
+#include "options.hpp"
+
+#define UNUSED(x) (void)(x)
+
+namespace fs = boost::filesystem;
+
+namespace bayan {
 class Analyzer
 {
 public:
-    explicit Analyzer(size_t block_size);
-
-    void parse(const command_pair& pair);
-    void attach(logger::IBaseLogger* logger);
-    void detach(logger::IBaseLogger* logger);
-    void updateAll();
+    void run(const Options& opt);
 
 private:
-    size_t m_blockSize;
-    size_t m_bracketsLevel;
-    command_block m_cmdBlock;
-    std::vector<logger::IBaseLogger*> m_loggers;
+    std::unordered_set<std::string> getFileList(const Options& opt);
+    void findDuplicate(const Options& opt, const std::unordered_set<std::string>& list);
+    bool matchMask(const std::string& filename, const std::string& mask);
+    std::set<std::string> makeUniqiePaths(const std::vector<std::string>& paths);
 };
-} // namespace async
 
-#endif // ANALYZER_HPP
+} // namespace bayan

@@ -1,2 +1,2 @@
-# Task10
-Async server
+# Task8 bayan
+Утилита для анализа дубликатов файлов

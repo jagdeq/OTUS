@@ -1,42 +1,75 @@
 #include "analyzer.hpp"
 
-async::Analyzer::Analyzer(size_t block_size)
-    : m_blockSize{block_size},
-      m_bracketsLevel{0}
-{}
-
-void async::Analyzer::parse(const command_pair& pair)
+namespace bayan {
+void Analyzer::run(const Options& opt)
 {
-    const std::string& cmd = pair.first;
+    // Составление списка файлов
+    auto list = getFileList(opt);
 
-    if (cmd == "{") {
-        // Если уже был набранный блок
-        if (!m_cmdBlock.empty() && m_bracketsLevel == 0)
-            updateAll();
-        m_bracketsLevel++;
-        return;
-    } else if (cmd == "}")
-        m_bracketsLevel--;
-    else if (!cmd.empty())
-        m_cmdBlock.push_back(pair);
-
-    if (m_bracketsLevel == 0 && !m_cmdBlock.empty() && (m_cmdBlock.size() == m_blockSize || cmd == "}" || cmd.empty()))
-        updateAll();
+    // Анализ дубликатов
+    findDuplicate(opt, list);
 }
 
-void async::Analyzer::attach(logger::IBaseLogger* logger) { m_loggers.push_back(logger); }
-
-void async::Analyzer::detach(logger::IBaseLogger* logger)
+std::unordered_set<std::string> Analyzer::getFileList(const Options& opt)
 {
-    auto it = std::find(m_loggers.begin(), m_loggers.end(), logger);
-    if (it != m_loggers.end())
-        m_loggers.erase(it);
+    std::unordered_set<std::string> list;
+
+    auto scanDirs = makeUniqiePaths(opt.m_scanDirs);
+
+    for (const auto& dir : scanDirs)
+        for (fs::recursive_directory_iterator it(dir), end; it != end; ++it) {
+            if (it->is_regular_file())
+                for (const auto& mask : opt.m_masks)
+                    if (matchMask(it->path().filename().string(), mask))
+                        list.insert(fs::canonical(it->path()).string());
+
+            if (std::find(opt.m_ignoreDirs.begin(), opt.m_ignoreDirs.end(), it->path().filename().string()) !=
+                    opt.m_ignoreDirs.end() ||
+                it.depth() > static_cast<int>(opt.m_level))
+                it.disable_recursion_pending();
+        }
+
+    return list;
 }
 
-void async::Analyzer::updateAll()
+void Analyzer::findDuplicate(const Options& opt, const std::unordered_set<std::string>& list)
 {
-    for (auto logger : m_loggers)
-        logger->update(m_cmdBlock);
+    // TODO
+    UNUSED(opt);
 
-    m_cmdBlock.clear();
+    for (const auto& file : list)
+        std::cout << file << std::endl;
 }
+
+bool Analyzer::matchMask(const std::string& filename, const std::string& mask)
+{
+    std::string filename_l = filename;
+    std::string mask_l     = mask;
+
+    std::transform(filename_l.begin(), filename_l.end(), filename_l.begin(), tolower);
+    std::transform(mask_l.begin(), mask_l.end(), mask_l.begin(), tolower);
+
+    std::string regex_pattern = std::regex_replace(mask_l, std::regex("\\*"), ".*");
+
+    regex_pattern = std::regex_replace(regex_pattern, std::regex("\\?"), ".");
+    std::regex regex(regex_pattern);
+
+    return std::regex_match(filename, regex);
+}
+
+std::set<std::string> Analyzer::makeUniqiePaths(const std::vector<std::string>& paths)
+{
+    std::vector<std::string> fullPaths;
+    fullPaths.reserve(paths.size());
+    for (auto& path : paths)
+        fullPaths.emplace_back(fs::canonical(fs::path(path)).string());
+
+    std::set<std::string> uniquePaths(fullPaths.begin(), fullPaths.end());
+
+    for (auto& path : uniquePaths)
+        std::cout << path << std::endl;
+
+    return uniquePaths;
+}
+
+} // namespace bayan

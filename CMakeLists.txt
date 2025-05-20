@@ -1,19 +1,19 @@
-cmake_minimum_required(VERSION 3.28.1)
+cmake_minimum_required(VERSION 3.15)
 
 set(PATCH_VERSION "1" CACHE INTERNAL "Patch version")
 set(PROJECT_VESRION 0.0.${PATCH_VERSION})
 
-project(bulk_server VERSION ${PROJECT_VESRION} )
+project(bayan VERSION ${PROJECT_VESRION} )
 
 set(EXEC_NAME ${PROJECT_NAME})
-set(LIB_NAME async)
-set(TEST_NAME ${PROJECT_NAME}_test)
+# set(LIB_NAME bayan)
+# set(TEST_NAME ${PROJECT_NAME}_test)
 
 option(WITH_GTESTS "Whether to build tests" OFF)
 
 configure_file(version.h.in version.h)
 
-add_executable(${EXEC_NAME} server.hpp server.cpp main.cpp)
+add_executable(${EXEC_NAME} main.cpp)
 
 set_target_properties(${EXEC_NAME} 
     PROPERTIES
@@ -23,7 +23,7 @@ set_target_properties(${EXEC_NAME}
 
 target_link_libraries(${EXEC_NAME} 
     PRIVATE
-        async
+        file_analyzer
         -lboost_program_options
 )   
 
@@ -41,10 +41,10 @@ endif()
 
 install(TARGETS ${EXEC_NAME} RUNTIME DESTINATION bin)
     
-install(TARGETS ${LIB_NAME}
-    LIBRARY DESTINATION lib
-    PUBLIC_HEADER DESTINATION include
-)
+# install(TARGETS ${LIB_NAME}
+#     LIBRARY DESTINATION lib
+#     PUBLIC_HEADER DESTINATION include
+# )
 
 set(CPACK_GENERATOR DEB)
 set(CPACK_PACKAGE_VERSION_MAJOR "${PROJECT_VERSION_MAJOR}")
