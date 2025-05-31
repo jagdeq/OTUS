@@ -11,9 +11,6 @@ using namespace bayan;
 
 int main(int argc, char** argv)
 {
-    UNUSED(argc);
-    UNUSED(argv);
-
     Options opt;
 
     po::options_description desc("Allowed options");
@@ -38,7 +35,7 @@ int main(int argc, char** argv)
          "reading block size in bytes")
         // Используемая хэш-функция
         ("hash,H", po::value<std::string>()->required()->default_value(opt.m_hash),
-         "hash function [md5, crc16, crc32, sha-1, sha-2, sha-256]");
+         "hash function [md5, sha-1, sha-256]");
 
     po::variables_map vm;
 
@@ -69,10 +66,15 @@ int main(int argc, char** argv)
         if (vm.count("block_size"))
             opt.m_blockBsize = vm["block_size"].as<size_t>();
 
-        if (vm.count("hash"))
+        if (vm.count("hash")) {
             if (std::find(g_allowedHash.begin(), g_allowedHash.end(), vm["hash"].as<std::string>()) !=
                 g_allowedHash.end())
                 opt.m_hash = vm["hash"].as<std::string>();
+            else {
+                std::cout << desc;
+                return 0;
+            }
+        }
 
         std::cout << "bayan started with params:\n";
         std::cout << opt;

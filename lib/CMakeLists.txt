@@ -21,14 +21,17 @@ set_target_properties(${LIB_NAME}
 )
 
 find_package(Boost COMPONENTS filesystem REQUIRED)
+
 target_link_libraries(${LIB_NAME}
     PUBLIC
+        cryptopp
         ${Boost_FILESYSTEM_LIBRARY}
 )
 
 target_include_directories(${LIB_NAME}
     PUBLIC
         inc
+        usr/include/cryptopp
         ${Boost_FILESYSTEM_INCLUDE}
 )
 
