@@ -11,10 +11,10 @@ logger::ConsoleLogger::ConsoleLogger()
             }
 
             while (!m_buffer.empty()) {
-                m_mtx.lock();
+                // m_mtx.lock();
                 command_block block = m_buffer.front();
                 m_buffer.pop();
-                m_mtx.unlock();
+                // m_mtx.unlock();
 
                 size_t idx{0};
                 for (auto& cmd : block)
@@ -28,12 +28,4 @@ logger::ConsoleLogger::ConsoleLogger()
     });
 
     th.detach();
-}
-
-logger::ConsoleLogger::~ConsoleLogger()
-{
-    std::lock_guard<std::mutex> lg(m_mtx);
-    m_condFlag  = true;
-    m_isWorking = false;
-    m_cv.notify_one();
 }

@@ -10,7 +10,6 @@ class ConsoleLogger : public IBaseLogger
 {
 public:
     ConsoleLogger();
-    ~ConsoleLogger();
 };
 } // namespace logger
 

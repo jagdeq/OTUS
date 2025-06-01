@@ -45,11 +45,3 @@ logger::FileLogger::FileLogger()
         m_workers[i].detach();
     }
 }
-
-logger::FileLogger::~FileLogger()
-{
-    std::lock_guard<std::mutex> lg(m_mtx);
-    m_condFlag  = true;
-    m_isWorking = false;
-    m_cv.notify_all();
-}

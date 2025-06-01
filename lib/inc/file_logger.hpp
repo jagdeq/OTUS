@@ -11,7 +11,6 @@ class FileLogger : public IBaseLogger
 {
 public:
     FileLogger();
-    ~FileLogger();
 
 private:
     std::vector<std::thread> m_workers;

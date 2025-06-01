@@ -16,8 +16,9 @@ int main(int argc, char** argv)
     auto context = async::connect(atoi(argv[1]));
     for (std::string cmd; std::getline(std::cin, cmd);)
         async::receive(cmd.data(), cmd.size(), context);
-
     async::disconnect(context);
+
+    while (true) {}
 
     return 0;
 }
