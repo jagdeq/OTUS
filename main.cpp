@@ -34,8 +34,7 @@ int main(int argc, char** argv)
         ("block_size,S", po::value<size_t>()->required()->default_value(opt.m_blockBsize),
          "reading block size in bytes")
         // Используемая хэш-функция
-        ("hash,H", po::value<std::string>()->required()->default_value(opt.m_hash),
-         "hash function [md5, sha-1, sha-256]");
+        ("hash,H", po::value<std::string>()->required()->default_value(opt.m_hash), "hash function [md5, sha-1]");
 
     po::variables_map vm;
 

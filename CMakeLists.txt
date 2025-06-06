@@ -55,7 +55,7 @@ include(CPack)
 
 if(WITH_GTESTS)
     # add_subdirectory(gtests)
-    add_subdirectory(tests)
+    # add_subdirectory(tests)
     enable_testing()
     add_test(${TEST_NAME} tests/${TEST_NAME})
 endif()

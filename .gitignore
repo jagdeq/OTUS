@@ -1,6 +1,5 @@
 build
 doc
-gtests
 test_files
 .vscode
 *.log
