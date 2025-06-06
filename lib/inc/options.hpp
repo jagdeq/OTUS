@@ -18,7 +18,7 @@ struct Options
 {
     std::vector<std::string> m_scanDirs;
     std::vector<std::string> m_ignoreDirs;
-    std::vector<std::string> m_masks;
+    std::vector<std::string> m_masks{"*"};
     size_t m_level      = 0;
     size_t m_fileBsize  = 1;
     size_t m_blockBsize = 5;

@@ -1,4 +1,5 @@
 build
 doc
+test_files
 .vscode
 *.log

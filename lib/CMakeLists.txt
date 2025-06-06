@@ -2,11 +2,13 @@ set(LIB_NAME file_analyzer)
 
 set(HEADERS
     inc/consts.hpp
+    inc/hash_calculator.hpp
     inc/options.hpp
     inc/analyzer.hpp
 ) 
 
 set(SOURCES
+    src/hash_calculator.cpp
     src/analyzer.cpp
 ) 
 
@@ -24,14 +26,14 @@ find_package(Boost COMPONENTS filesystem REQUIRED)
 
 target_link_libraries(${LIB_NAME}
     PUBLIC
-        cryptopp
+        # cryptopp
         ${Boost_FILESYSTEM_LIBRARY}
 )
 
 target_include_directories(${LIB_NAME}
     PUBLIC
         inc
-        usr/include/cryptopp
+        # usr/include/cryptopp
         ${Boost_FILESYSTEM_INCLUDE}
 )
 
