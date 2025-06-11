@@ -1,21 +1,22 @@
-#ifndef SERVER_HPP
-#define SERVER_HPP
+#pragma once
 
 #include <iostream>
 #include <memory>
+#include <unordered_map>
 
-#include "async.h"
+#include "database.hpp"
 
 #include <boost/asio.hpp>
 
 using boost::asio::ip::tcp;
 
-class Server;
-
+namespace proto {
 class Session : public std::enable_shared_from_this<Session>
 {
 public:
-    Session(tcp::socket socket, size_t bulk_size, size_t context, Server* server);
+    using cmd = void (Session::*)(const std::vector<std::string>& args);
+
+    Session(tcp::socket socket, db::Database& db);
 
     void start() { doRead(); }
 
@@ -23,31 +24,29 @@ private:
     void doRead();
     void parseBuf(size_t length);
 
+    void callInsert(const std::vector<std::string>& args);
+    void callTruncate(const std::vector<std::string>& args);
+    void callIntersection(const std::vector<std::string>& args);
+    void callSymDifference(const std::vector<std::string>& args);
+
 private:
-    size_t m_commonContext;
-    ssize_t m_uniqueContext;
-    size_t m_bracketsLevel;
-    size_t m_bulkSize;
     tcp::socket m_socket;
-    Server* m_server;
+    db::Database& m_rDB;
+    std::unordered_map<std::string, cmd> m_cmdFuncs;
     char m_data[1024];
 };
 
 class Server
 {
 public:
-    Server(boost::asio::io_context& io_context, uint16_t port, size_t bulk_size);
-
-    void decreaseSessionCounter();
+    Server(boost::asio::io_context& io_context, uint16_t port);
+    ~Server();
 
 private:
     void doAccept();
 
 private:
-    size_t m_session_counter;
+    db::Database* m_pDB;
     tcp::acceptor m_acceptor;
-    ssize_t m_commonContext; // общий для статических блоков команд
-    size_t m_bulkSize;
 };
-
-#endif // SERVER_HPP
+} // namespace proto

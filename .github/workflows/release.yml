@@ -3,7 +3,7 @@ name: 'C++ CI'
 on:
   push:
     branches:
-      - task10_network
+      - task11_database
       - feature/github_actions
 
 jobs:
@@ -14,8 +14,9 @@ jobs:
         with:
           submodules: true
       - run: sudo apt-get update && sudo apt-get install doxygen -y && sudo apt-get install libboost-all-dev -y
-      - run: cmake -B build -DPATCH_VERSION=${{ github.run_number }}
+      - run: cmake -B build -DPATCH_VERSION=${{ github.run_number }} -DWITH_TESTS=ON
       - run: cmake --build build
+      - run: cmake --build build --target test
       - run: cmake --build build --target package
       
       - name: Create Release
@@ -36,8 +37,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./build/bulk_server-0.0.${{ github.run_number }}-Linux.deb
-          asset_name: bulk_server-0.0.${{ github.run_number }}-Linux.deb
+          asset_path: ./build/join_server-0.0.${{ github.run_number }}-Linux.deb
+          asset_name: join_server-0.0.${{ github.run_number }}-Linux.deb
           asset_content_type: application/vnd.debian.binary-package
 
       - name: Doxygen Action
