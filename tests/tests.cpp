@@ -11,14 +11,24 @@ BOOST_AUTO_TEST_CASE(insert)
 {
     db::Database db;
     BOOST_REQUIRE_THROW(db.insert("C", 1, "asd"), std::invalid_argument);
-    BOOST_REQUIRE(db.insert("A", 1, "qwerty"));
-    BOOST_REQUIRE(db.insert("B", 0, "ytrewq"));
+
+    db::Database::table tmpA{{1, "qwerty"}};
+    db::Database::table tmpB{{0, "ytrewq"}};
+
+    BOOST_REQUIRE(db.insert("A", 1, "qwerty") == tmpA);
+    BOOST_REQUIRE(db.insert("B", 0, "ytrewq") == tmpB);
 }
 
 BOOST_AUTO_TEST_CASE(truncate)
 {
     db::Database db;
     BOOST_REQUIRE_THROW(db.truncate("a"), std::invalid_argument);
+
+    db.insert("A", 4, "4");
+    db.insert("B", 3, "a");
+
+    BOOST_REQUIRE(db.truncate("A").empty());
+    BOOST_REQUIRE(db.truncate("B").empty());
 }
 
 BOOST_AUTO_TEST_CASE(intersection)

@@ -7,20 +7,22 @@ Database::Database()
         m_tables.insert({name, table()});
 }
 
-bool Database::insert(std::string table, int id, std::string name)
+Database::table Database::insert(std::string table, int id, std::string name)
 {
-    if (m_tables.contains(table))
-        return m_tables[table].insert({id, name}).second;
-    else
+    if (!m_tables.contains(table))
         throw std::invalid_argument("Unknown table name");
+
+    m_tables[table].insert({id, name});
+    return m_tables[table];
 }
 
-void Database::truncate(std::string table)
+Database::table Database::truncate(std::string table)
 {
-    if (m_tables.contains(table))
-        m_tables[table].clear();
-    else
+    if (!m_tables.contains(table))
         throw std::invalid_argument("Unknown table name");
+
+    m_tables[table].clear();
+    return m_tables[table];
 }
 
 Database::collection Database::intersection(std::string tableA, std::string tableB)
@@ -60,6 +62,14 @@ std::ostream& operator<<(std::ostream& os, const Database::collection& c)
 {
     for (const auto& [key, value] : c)
         os << key << " | " << value.first << " | " << value.second << std::endl;
+
+    return os;
+}
+
+std::ostream& operator<<(std::ostream& os, const Database::table& t)
+{
+    for (const auto& [key, value] : t)
+        os << key << " | " << value << std::endl;
 
     return os;
 }

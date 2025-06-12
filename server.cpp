@@ -40,7 +40,7 @@ void Session::doRead()
 
 void Session::parseBuf(size_t length)
 {
-    if (length != 0) {
+    if (length > 1) {
         std::string line(m_data, length);
         std::vector<std::string> args;
 
@@ -58,18 +58,28 @@ void Session::parseBuf(size_t length)
 
 void Session::callInsert(const std::vector<std::string>& args)
 {
+    using namespace db;
+
     if (args.size() != 3)
         return;
 
-    m_rDB.insert(args[0], atoi(args[1].data()), args[2]);
+    auto t = m_rDB.insert(args[0], atoi(args[1].data()), args[2]);
+    std::cout << "id | " << args[0] << std::endl;
+    std::cout << "-------------------------------\n";
+    std::cout << t << std::endl;
 }
 
 void Session::callTruncate(const std::vector<std::string>& args)
 {
+    using namespace db;
+
     if (args.size() != 1)
         return;
 
-    m_rDB.truncate(args[0]);
+    auto t = m_rDB.truncate(args[0]);
+    std::cout << "id | " << args[0] << std::endl;
+    std::cout << "-------------------------------\n";
+    std::cout << t << std::endl;
 }
 
 void Session::callIntersection(const std::vector<std::string>& args)

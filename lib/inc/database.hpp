@@ -19,8 +19,8 @@ public:
 
     Database();
 
-    bool insert(std::string table, int id, std::string name);
-    void truncate(std::string table);
+    table insert(std::string table, int id, std::string name);
+    table truncate(std::string table);
     collection intersection(std::string tableA, std::string tableB);
     collection symmetricDifference(std::string tableA, std::string tableB);
 
@@ -29,5 +29,6 @@ private:
 };
 
 std::ostream& operator<<(std::ostream& os, const Database::collection& c);
+std::ostream& operator<<(std::ostream& os, const Database::table& t);
 
 } // namespace db
