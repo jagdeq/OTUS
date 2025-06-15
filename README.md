@@ -1,2 +1,9 @@
-# Task10
-Async server
+# Task11 Outer join
+## Реализация функционала БД аля SQL
+1. Взаимодействие с БД через асинхронный сервер.
+2. Доступные команды:
+- INSERT table id name [записать строку вида <id, name> в таблицу table (доступны таблицы A, B)];
+- TRUNCATE table [очистить таблицу table];
+- INTERSECTION [выполнить пересечение таблиц A и B];
+- SYMMETRIC_DIFFERENCE [выполнить симметричную разность таблиц A и B].
+
